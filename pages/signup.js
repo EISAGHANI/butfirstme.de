@@ -39,6 +39,7 @@ export default function SignUp() {
   });
   async function onSubmit(values) {
     console.log(values);
+    
   }
 
 
@@ -115,7 +116,6 @@ export default function SignUp() {
                 />
                 <Button
                   type="submit"
-  
                   variant="contained"
                   sx={{ mt: 3, mb: 2, marginLeft:9, bgcolor: '#F9AE19' }}
                 >
