@@ -63,11 +63,11 @@ export default function SignIn() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <TextField  id="email" {...formik.getFieldProps('email')} margin="normal" required  label="Email Address" name="email" autoComplete="email" autoFocus  InputProps={{startAdornment: (<AccountCircleIcon sx={{ color: '#F9AE19' }} />),}}/>
                 </Box>
-                {formik.errors.email ? <span>{formik.errors.email}</span> : null}
+                {formik.errors.email && formik.touched.email ? <span>{formik.errors.email}</span> : null}
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <TextField  id="password" name="password" {...formik.getFieldProps('password')} margin="normal" required  label="Password" type="password" autoComplete="current-password" InputProps={{startAdornment: (<LockOutlinedIcon sx={{ color: '#F9AE19' }} />),}}/>
                 </Box>
-                {formik.errors.password ? <span>{formik.errors.password}</span> : null}
+                {formik.errors.password && formik.touched.email ? <span>{formik.errors.password}</span> : null}
                 <FormControlLabel control={<Checkbox value="remember" color="primary" />} sx={{ marginRight: 20 }} label="Remember me" />
                 <Button type="submit" onSubmit={formik.handleSubmit} variant="contained" sx={{ mt: 2, mb: 2, marginRight: 3, bgcolor: "#F9AE19" }}>Sign In</Button>
                 <Button onClick={handleGoogleSignin} type="submit" variant="contained" sx={{ mt: 2, mb: 2, bgcolor: "#F9AE19" }}>Sign In with Google</Button>

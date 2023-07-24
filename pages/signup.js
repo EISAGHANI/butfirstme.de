@@ -18,6 +18,7 @@ import { Paper } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useFormik } from 'formik';
+import { registerValidate } from '@/lib/validate';
 // import { ReactComponent as ButfirstmeLogo } from '../public/assets/header_material/Logo_icon.svg';
 // import { ReactComponent as ButfirstmeLogoText } from '../public/assets/header_material/logo_text.svg';
 
@@ -33,6 +34,7 @@ export default function SignUp() {
       email: '',
       password: '',
     },
+    validate: registerValidate,
     onSubmit
   });
   async function onSubmit(values) {
@@ -64,6 +66,7 @@ export default function SignUp() {
                   autoComplete="given-name"
                   {...formik.getFieldProps('firstName')}
                 />
+                {formik.errors.firstName  && formik.touched.firstName ? <span>{formik.errors.firstName}</span> : null}
                 <TextField
                   margin="normal"
                   required
@@ -74,6 +77,7 @@ export default function SignUp() {
                   autoComplete="family-name"
                   {...formik.getFieldProps('lastName')}
                 />
+                {formik.errors.lastName  && formik.touched.lastName ? <span>{formik.errors.lastName}</span> : null}
                 <TextField
                   margin="normal"
                   required
@@ -88,6 +92,7 @@ export default function SignUp() {
                   }}
                   {...formik.getFieldProps('email')}
                 />
+                {formik.errors.email  && formik.touched.email ? <span>{formik.errors.email}</span> : null}
                 <TextField
                   margin="normal"
                   required
@@ -103,6 +108,7 @@ export default function SignUp() {
                   }}
                   {...formik.getFieldProps('password')}
                 />
+                {formik.errors.password  && formik.touched.password ? <span>{formik.errors.password}</span> : null}
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
