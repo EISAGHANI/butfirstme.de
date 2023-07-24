@@ -8,6 +8,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Button from '@mui/material/Button';
 import React from 'react';
+import { useSession, signOut} from 'next-auth/react'
 
 const icons = [
   { id: 1, component: FacebookIcon, link: 'https://www.facebook.com/' },
@@ -18,6 +19,64 @@ const icons = [
 ];
 
 const TopNavbar = () => {
+  const { data: session } = useSession()
+
+
+  function handleSignOut() {
+    signOut();
+  }
+
+
+  if (session) {
+    return (
+          <AppBar position='static' color='primary'>
+          <Toolbar>
+            {icons.map((icon) => (
+              <IconButton
+                component='a'
+                href={icon.link}
+                target='_blank'
+                rel='noopener noreferrer'
+                key={icon.id}
+                sx={{  marginRight: '2px' }}
+              >
+                <SvgIcon component={icon.component} color="secodary"/>
+              </IconButton>
+            ))}
+    
+            <Box sx={{ flexGrow: 1 }} />
+    
+            <IconButton color='secondary' sx={{ marginRight: '8px' }}>
+              <PhoneIcon />
+            </IconButton>
+            <Typography variant='body1' color='inherit' sx={{ marginRight: '28px' }}>
+              +1 123 456 789
+            </Typography>
+    
+            <Button
+              component='a'
+              variant='contained'
+              color = 'secondary'
+              sx={{  marginLeft: '18px' }}
+            >
+             <Typography fontFamily={'Montserrat-light'}> Signed In as {session.user.email}</Typography>
+            </Button>
+            <Button
+              component='a'
+              variant='contained'
+              color = 'secondary'
+              sx={{ marginLeft: '18px' }}
+              onClick={handleSignOut}
+            >
+              <Typography fontFamily={'Montserrat-light'}>Log Out</Typography>
+            </Button>
+          </Toolbar>
+        </AppBar>
+    )  
+  }
+
+  else {
+
   return (
     <AppBar position='static' color='primary'>
       <Toolbar>
@@ -64,6 +123,7 @@ const TopNavbar = () => {
       </Toolbar>
     </AppBar>
   );
+  }
 };
 
 export default TopNavbar;

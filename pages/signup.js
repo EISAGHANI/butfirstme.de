@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 import backgroundImage1 from '../public/assets/header_material/close-up-hand-with-painting-pallete.jpg';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -15,20 +17,31 @@ import { styled } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useFormik } from 'formik';
 // import { ReactComponent as ButfirstmeLogo } from '../public/assets/header_material/Logo_icon.svg';
 // import { ReactComponent as ButfirstmeLogoText } from '../public/assets/header_material/logo_text.svg';
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+  const [submitError, setSubmitError] = useState(""); // State variable to store signup error
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
+    onSubmit
+  });
+  async function onSubmit(values) {
+    console.log(values);
+  }
+
+
+  
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -36,7 +49,7 @@ export default function SignUp() {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Paper variant="outlined" rounded elevation={3} sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%' }} borderRadius={2} boxShadow={'3px 3px 3px 3px'}>
+            <Box component="form" noValidate  sx={{ width: '100%' }} borderRadius={2} boxShadow={'3px 3px 3px 3px'}>
               <Box sx={{ bgcolor: '#F9AE19'}}>
                 {/* <ButfirstmeLogo style={{ height: '100px', width: '100px', marginRight: '6px' }} />
                 <ButfirstmeLogoText style={{ height: '100px', width: '200px', marginLeft: '16px' }} /> */}
@@ -49,6 +62,7 @@ export default function SignUp() {
                   label="First Name"
                   name="firstName"
                   autoComplete="given-name"
+                  {...formik.getFieldProps('firstName')}
                 />
                 <TextField
                   margin="normal"
@@ -58,6 +72,7 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  {...formik.getFieldProps('lastName')}
                 />
                 <TextField
                   margin="normal"
@@ -71,6 +86,7 @@ export default function SignUp() {
                       <AccountCircleIcon sx={{ color: '#F9AE19' }} />
                     ),
                   }}
+                  {...formik.getFieldProps('email')}
                 />
                 <TextField
                   margin="normal"
@@ -85,6 +101,7 @@ export default function SignUp() {
                       <LockOutlinedIcon sx={{ color: '#F9AE19' }} />
                     ),
                   }}
+                  {...formik.getFieldProps('password')}
                 />
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
