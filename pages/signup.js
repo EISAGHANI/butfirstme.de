@@ -51,7 +51,7 @@ export default function SignUp() {
       <Box sx={{ width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)', backgroundImage: `url(${backgroundImage1})`, backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '80px', paddingBottom: '80px' }}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
-          <Paper variant="outlined" rounded elevation={3} sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Paper variant="outlined" elevation={0} sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box component="form" noValidate  sx={{ width: '100%' }} borderRadius={2} boxShadow={'3px 3px 3px 3px'}>
               <Box sx={{ bgcolor: '#F9AE19'}}>
                 {/* <ButfirstmeLogo style={{ height: '100px', width: '100px', marginRight: '6px' }} />
@@ -118,6 +118,7 @@ export default function SignUp() {
                   type="submit"
                   variant="contained"
                   sx={{ mt: 3, mb: 2, marginLeft:9, bgcolor: '#F9AE19' }}
+                  onClick={formik.handleSubmit}
                 >
                   Sign Up
                 </Button>
