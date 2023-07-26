@@ -20,11 +20,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import login_validate from '@/lib/validate';
+import { useRouter } from 'next/router';
 
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+
+  const router = useRouter();
   
   const formik = useFormik({
     initialValues: {
@@ -35,10 +38,16 @@ export default function SignIn() {
     onSubmit
   });
 
-  console.log(formik.errors);
 
   async function onSubmit(values) {
-    console.log(values);
+    const status = await signIn('credentials', {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+      callbackUrl: 'http://localhost:3000/',
+    });
+
+    if(status.ok)router.push(status.url);
   }
 
 
@@ -53,7 +62,7 @@ export default function SignIn() {
       <Box sx={{ width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)', backgroundImage: `url(${backgroundImage1})`, backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '80px', paddingBottom: '80px' }}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
-          <Paper variant="outlined" rounded elevation={3} sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Paper variant="outlined" elevation={0} sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box component="form"  noValidate borderRadius={2} boxShadow={'3px 3px 3px 3px'}>
               <Box container sx={{ bgcolor: "#F9AE19" }}>
                 {/* <ButfirstmeLogo style={{ height: '100px', width: '100px', marginRight: '6px' }} />
@@ -67,10 +76,10 @@ export default function SignIn() {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <TextField  id="password" name="password" {...formik.getFieldProps('password')} margin="normal" required  label="Password" type="password" autoComplete="current-password" InputProps={{startAdornment: (<LockOutlinedIcon sx={{ color: '#F9AE19' }} />),}}/>
                 </Box>
-                {formik.errors.password && formik.touched.email ? <span>{formik.errors.password}</span> : null}
+                {formik.errors.password && formik.touched.password ? <span>{formik.errors.password}</span> : null}
                 <FormControlLabel control={<Checkbox value="remember" color="primary" />} sx={{ marginRight: 20 }} label="Remember me" />
-                <Button type="submit" onSubmit={formik.handleSubmit} variant="contained" sx={{ mt: 2, mb: 2, marginRight: 3, bgcolor: "#F9AE19" }}>Sign In</Button>
-                <Button onClick={handleGoogleSignin} type="submit" variant="contained" sx={{ mt: 2, mb: 2, bgcolor: "#F9AE19" }}>Sign In with Google</Button>
+                <Button onClick={formik.handleSubmit} variant="contained" sx={{ mt: 2, mb: 2, marginRight: 3, bgcolor: "#F9AE19" }}>Sign In</Button>
+                <Button onClick={handleGoogleSignin} variant="contained" sx={{ mt: 2, mb: 2, bgcolor: "#F9AE19" }}>Sign In with Google</Button>
               </Box>
               <Grid container sx={{ m: 2, paddingRight: 4 }}>
                 <Grid item xs={6}>

@@ -19,13 +19,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useFormik } from 'formik';
 import { registerValidate } from '@/lib/validate';
+import { useRouter } from 'next/router';
 // import { ReactComponent as ButfirstmeLogo } from '../public/assets/header_material/Logo_icon.svg';
 // import { ReactComponent as ButfirstmeLogoText } from '../public/assets/header_material/logo_text.svg';
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-
+  const router = useRouter();
   const [submitError, setSubmitError] = useState(""); // State variable to store signup error
   const formik = useFormik({
     initialValues: {
@@ -38,7 +39,17 @@ export default function SignUp() {
     onSubmit
   });
   async function onSubmit(values) {
-    console.log(values);
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values)
+    }
+    await fetch('/api/auth/signup', options)
+      .then(res => res.json())
+      .then((data)=>{
+        if(data)router.push('http://localhost:3000');
+      })
+
     
   }
 
